@@ -5,6 +5,7 @@ library(tidyverse)
 library(readr)
 library(tidytext)
 library(zoo)
+library(textstem)
 
 
 dat <- read_lines("data/WhatsApp.txt") %>% 
@@ -22,13 +23,20 @@ dat <- read_lines("data/WhatsApp.txt") %>%
   mutate (date = lubridate::dmy(date)) 
 
 
+my_stops <- tibble(word = c("omit", "medium", "https"),
+                   lexicon = c("my_stops", "my_stops", "my_stops"))
+my_stops<-rbind(stop_words, my_stops)
 
-dat %>% 
-  ggplot (aes (x = date)) +
-  geom_bar (stat = "count")
+
+words <- dat %>% 
+  mutate (shortsend = case_when (str_detect(sender, "Fraser") ~ "Fraser",
+                                 str_detect(sender, "Jilly") ~ "Jilly")) %>% 
+  unnest_tokens(word, msg_text) %>% 
+  mutate (word = (lemmatize_strings(word))) %>% 
+  anti_join(my_stops) %>% 
+  filter(str_detect(word, '[^0-9]'))
+ 
 
 
-dat %>% 
-  separate (time, into = c("hours", "minutes"), sep =":") %>% 
-  ggplot (aes (x = hours)) +
-  geom_bar (stat = "count")
+words %>% 
+  count(word, shortsend, sort = TRUE)

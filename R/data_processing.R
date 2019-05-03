@@ -7,33 +7,28 @@ library(tidytext)
 library(zoo)
 
 
-
-
-
 dat <- read_lines("data/WhatsApp.txt") %>% 
   tibble() %>% 
-  rename(text = ".")
+  rename(msg_text = ".") %>% 
+  mutate (msg_text = parse_character(msg_text)) %>% 
+  mutate (msg_stamp = str_extract(msg_text, "\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d\\,\\ \\d\\d\\:\\d\\d\\ \\-\\ [^0-9]+\\: ")) %>% 
+  separate(msg_stamp, into = c("date", "sender"), sep = " - ") %>% 
+  mutate (msg_text = str_remove(msg_text, "\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d\\,\\ \\d\\d\\:\\d\\d\\ \\-\\ [^0-9]+\\: ")) %>% 
+  mutate (sender = na.locf(sender, na.rm = FALSE)) %>% 
+  mutate (date = na.locf(date, na.rm = FALSE)) %>% 
+  filter(!is.na(msg_text),
+         !is.na(date)) %>% 
+  separate(date, into = c("date", "time"), sep =",") %>% 
+  mutate (date = lubridate::dmy(date)) 
 
 
-dat1 <- dat %>% 
-  mutate (text = parse_character(text)) %>% 
-  mutate (speaker = case_when (str_detect(text, "Smith") ~ "Fraser",
-                               str_detect(text, "Jilly MacKay") ~ "Jilly",
-                               TRUE ~ "none"))
-# this is far from perfect yet!
+
+dat %>% 
+  ggplot (aes (x = date)) +
+  geom_bar (stat = "count")
 
 
-dat1 %>% 
-  unnest_tokens(word, text)  %>% 
-  count(word, sort = TRUE) %>% 
-  anti_join(stop_words) %>% 
-  head(10) %>% 
-  ggplot(aes(word, n)) +
-  geom_col()
-
-dat2 <- dat1 %>% 
-  mutate(is_time = str_detect(text, "\d\d\/\d\d\/\d\d\d\d\,\ \d\d\:\d\d"),
-         time = ifelse(is_time, text, NA),
-         time = na.locf(time, na.rm = FALSE))
-
-  
+dat %>% 
+  separate (time, into = c("hours", "minutes"), sep =":") %>% 
+  ggplot (aes (x = hours)) +
+  geom_bar (stat = "count")

@@ -1,5 +1,6 @@
 library(wesanderson)
 library(wordcloud)
+library(patchwork)
 
 timepal <- wes_palette("Moonrise3", 24, type = "continuous")
 
@@ -14,7 +15,8 @@ vis %>%
   scale_fill_manual(values = wes_palette("Moonrise3")) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs (x = "Date", y= "n messages", title = "WhatsApp message history for 2 person chat")
+  labs (x = "Date", y= "n messages", title = "WhatsApp message history for 2 person chat") +
+  facet_grid(rows = vars(shortsend))
 
 
 vis %>% 
@@ -35,9 +37,47 @@ words %>%
                    rot.per = 0, use.r.layout = FALSE)
 
 
-words %>% 
+
+
+
+
+# developing a nice by person frequent word visualisation
+
+fwords <- words %>% 
+  filter(shortsend == "Fraser") %>% 
+  count (word, sort = TRUE) %>% 
+  mutate(send = "Fraser",
+         prop = n/sum(n))
+
+jwords <- words %>% 
+  filter(shortsend == "Jilly") %>% 
+  count (word, sort = TRUE) %>% 
+  mutate (send = "Jilly",
+          prop = n/sum(n))
+
+
+p1 <- words %>% 
+  filter(shortsend == "Fraser") %>% 
   count(word, shortsend, sort = TRUE)  %>% 
   head(10) %>% 
-  ggplot(aes(x = word, y= n, fill = shortsend)) +
-  geom_bar(stat = "identity", position = "dodge2")
+  ggplot(aes(x = reorder(word, -n), y= n, fill = word)) +
+  geom_bar(stat = "identity", position = "dodge2") +
+  scale_fill_manual(values = timepal) +
+  labs (x = "Fraser", y = NULL) +
+  theme_classic() +
+  theme(legend.position = "none") 
 
+
+p2 <-words %>% 
+  filter(shortsend == "Jilly") %>% 
+  count(word, shortsend, sort = TRUE)  %>% 
+  head(10) %>% 
+  ggplot(aes(x = reorder(word, n), y= n, fill = word)) +
+  scale_fill_manual(values = timepal) +
+  geom_bar(stat = "identity", position = "dodge2") +
+  labs (x = "Jilly", y = NULL) +
+  theme_classic() +
+  theme(legend.position = "none") +
+  scale_y_continuous(position = "right") 
+
+p1  + p2 

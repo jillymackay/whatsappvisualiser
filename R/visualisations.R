@@ -1,6 +1,7 @@
 library(wesanderson)
 library(wordcloud)
 library(patchwork)
+#devtools::install_github("thomasp85/patchwork")
 
 timepal <- wes_palette("Moonrise3", 24, type = "continuous")
 
@@ -19,7 +20,7 @@ vis %>%
   facet_grid(rows = vars(shortsend))
 
 
-vis %>% 
+p4 <- vis %>% 
   separate (time, into = c("hours", "minutes"), sep =":") %>% 
   ggplot (aes (x = hours, fill = hours)) +
   geom_bar (stat = "count") +
@@ -81,3 +82,4 @@ p2 <-words %>%
   scale_y_continuous(position = "right") 
 
 p1  + p2 
+p3 + p4

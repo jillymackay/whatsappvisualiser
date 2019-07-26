@@ -6,6 +6,7 @@ library(readr)
 library(tidytext)
 library(zoo)
 library(textstem)
+library(wesanderson)
 
 
 dat <- read_lines("data/WhatsApp.txt") %>% 

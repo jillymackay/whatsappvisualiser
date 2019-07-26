@@ -1,5 +1,15 @@
 # Functions
 
+
+library(tidyverse)
+library(readr)
+library(tidytext)
+library(zoo)
+library(textstem)
+library(wesanderson)
+library(wordcloud)
+library(patchwork)
+
 whats_rd <- function (x, sender1, sender2) {
   my_stops <- tibble(word = c("omit", "medium", "https"),
                      lexicon = c("my_stops", "my_stops", "my_stops"))

@@ -19,7 +19,9 @@ shinyUI(
                       ),
              
              tabPanel(title = "Another tab",
-                      mainPanel(title = "Tab 2")
+                      mainPanel(plotOutput(
+                        outputId = "whatplot_date"
+                      ) )
                       )
              )
 )

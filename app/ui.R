@@ -19,9 +19,19 @@ shinyUI(
                       ),
              
              tabPanel(title = "Another tab",
-                      mainPanel(plotOutput(
+                      mainPanel(
+                        plotOutput(
                         outputId = "whatplot_date"
-                      ) )
+                      ),
+                      plotOutput(
+                        outputId = "whatplot_hours"
+                      ),
+                      plotOutput(
+                        outputId = "whatplot_compare"
+                      ),
+                      plotOutput(
+                        outputId = "whatplot_words"
+                      ))
                       )
              )
 )

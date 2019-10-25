@@ -103,18 +103,18 @@ shinyServer(function(input, output, session){
   )
   
   
-  output$whatplot_compare <- renderPlot (
-    {
-      p <- dat() %>% 
-        filter(str_detect(word, '[^0-9]')) %>% 
-        count (word, shortsend, sort = TRUE) %>%
-        reshape2::acast(word ~ shortsend, value.var = "n", fill = 0) %>%
-        comparison.cloud(colors = c("#533366",    "#E9967A"), max.words = 150, 
-                         rot.per = 0, use.r.layout = FALSE)
-        
-      
-    }
-  )
+ output$whatplot_compare <- renderPlot (
+   {
+     p <- dat() %>% 
+       filter(str_detect(word, '[^0-9]')) %>% 
+       count (word, shortsend, sort = TRUE) %>%
+       reshape2::acast(word ~ shortsend, value.var = "n", fill = 0) %>%
+       comparison.cloud(colors = c("#533366",    "#E9967A"), max.words = 150, 
+                        rot.per = 0, use.r.layout = FALSE)
+       
+   
+   }
+ )
   
   
   output$whatplot_words <- renderPlot(

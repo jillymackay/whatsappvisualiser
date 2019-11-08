@@ -9,7 +9,7 @@ shinyUI(
                       sidebarLayout(
                         sidebarPanel(tags$p("First, export your WhatsApp chat (without media) from the app. Upload the .txt file below."),
                                      tags$em("P.S. Some people use emojis or other special characters in their contact details.
-                                             If you do this, you'll need to rename the file or you'll have difficulties uploading the file."),
+                                             If you do this, you may need to rename the file if you're having difficulties uploading the file."),
                           fileInput(inputId = "file",
                                                label = "Upload your text file here"),
                           tags$p("To ensure the visualisations look their prettiest, you have to confirm the speakers' names. 
@@ -21,7 +21,7 @@ shinyUI(
                                                label = "Type the name of person 2")),
                       mainPanel(tags$h2("Chat snapshot"),
                                 tags$p("Once your data is uploaded it will appear here. If your table doesn't 
-                                      start at the beginning of your chart you may need to re-export your chat from 
+                                      start at the beginning of your chat you may need to re-export your chat from 
                                       WhatsApp, making sure you've loaded the whole chat on your device 
                                       before you export it. "),
                         DTOutput("raw_data")
@@ -30,26 +30,14 @@ shinyUI(
              
     # -------------- Visualisations -----------------------         
 
-    # tabPanel(title = "Visualise your chats!",
-    #          fluidPage(
-    #            fluidRow(
-    #              column(width = 6,
-    #                     plotOutput(outputId = "whatplot_date")),
-    #            column (width = 6,
-    #                    plotOutput(outputId = "whatplot_hours"))),
-    #            fluidRow(plotOutput(outputId = "whatplot_words"))
-    #          ))
-    # 
-    # Stupid wordle incorporation that refuses to work
-    # 
      tabPanel(title = "Visualise your chats",
               fluidPage(
               fluidRow(column(width = 6, 
-                              plotOutput(outputId = "whatplot_time"),
+                              plotOutput(outputId = "whatplot_time")),
                        column(width = 6,  plotOutput(outputId = "whatplot_compare")),
                        fluidRow(column(width = 12, 
                                        plotOutput(outputId = "whatplot_words")
-                                         ))))))
+                                         )))))
     
     
     

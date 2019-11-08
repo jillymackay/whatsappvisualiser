@@ -35,8 +35,8 @@ shinyServer(function(input, output, session){
       return(NULL)
     }
     
-    my_stops <- tibble(word = c("omit", "medium", "https"),
-                       lexicon = c("my_stops", "my_stops", "my_stops"))
+    my_stops <- tibble(word = c("omit", "medium", "https", "bite"),
+                       lexicon = c("my_stops", "my_stops", "my_stops", "my_stops"))
     my_stops<-rbind(stop_words, my_stops)
     
     read_lines(infile$datapath) %>% 
@@ -100,35 +100,7 @@ shinyServer(function(input, output, session){
     
   )
   
-  output$whatplot_date <- renderPlot(
-    {
-      p1 <- dat() %>% 
-        ggplot (aes (x = date, fill = shortsend)) +
-        geom_bar (stat = "count", position = "dodge2") +
-        theme_classic() +
-        scale_fill_manual(values = wes_palette("Moonrise3")) +
-        theme_classic() +
-        theme(legend.position = "none") +
-        labs (x = "Date", y= "n messages", title = "WhatsApp message history for 2 person chat") +
-        facet_grid(rows = vars(shortsend))
-      p
-    }
-  )
-  
-  output$whatplot_hours <- renderPlot(
-    {
-      p <- dat() %>% 
-        separate (time, into = c("hours", "minutes"), sep =":") %>% 
-        ggplot (aes (x = hours, fill = hours)) +
-        geom_bar (stat = "count") +
-        scale_fill_manual(values = timepal) +
-        theme_classic() +
-        theme(legend.position = "none") +
-        labs (x = "Hour", y = "n messages")
-      
-      p
-    }
-  )
+
   
   
  output$whatplot_compare <- renderPlot (

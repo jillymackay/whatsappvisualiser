@@ -72,9 +72,37 @@ shinyServer(function(input, output, session){
   # ---------- Create plots ----------------
   
   
+  output$whatplot_time <- renderPlot(
+    {
+      p1 <- dat() %>% 
+        ggplot (aes (x = date, fill = shortsend)) +
+        geom_bar (stat = "count", position = "dodge2") +
+        theme_classic() +
+        scale_fill_manual(values = wes_palette("Moonrise3")) +
+        theme_classic() +
+        theme(legend.position = "none") +
+        labs (x = "Date", y= "n messages", title = "WhatsApp message history for 2 person chat") +
+        facet_grid(rows = vars(shortsend))
+      
+      p2 <- dat() %>% 
+        separate (time, into = c("hours", "minutes"), sep =":") %>% 
+        ggplot (aes (x = hours, fill = hours)) +
+        geom_bar (stat = "count") +
+        scale_fill_manual(values = timepal) +
+        theme_classic() +
+        theme(legend.position = "none") +
+        labs (x = "Hour", y = "n messages")
+      
+      p1 + p2 + plot_layout(ncol = 1, heights = c(1, 1))
+      
+    }
+    
+    
+  )
+  
   output$whatplot_date <- renderPlot(
     {
-      p <- dat() %>% 
+      p1 <- dat() %>% 
         ggplot (aes (x = date, fill = shortsend)) +
         geom_bar (stat = "count", position = "dodge2") +
         theme_classic() +

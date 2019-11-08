@@ -30,27 +30,30 @@ shinyUI(
              
     # -------------- Visualisations -----------------------         
 
-    tabPanel(title = "Visualise your chats!",
-             fluidPage(
-               fluidRow(
-                 column(width = 6,
-                        plotOutput(outputId = "whatplot_date")),
-               column (width = 6,
-                       plotOutput(outputId = "whatplot_hours"))),
-               fluidRow(plotOutput(outputId = "whatplot_words"))
-             ))
-    
+    # tabPanel(title = "Visualise your chats!",
+    #          fluidPage(
+    #            fluidRow(
+    #              column(width = 6,
+    #                     plotOutput(outputId = "whatplot_date")),
+    #            column (width = 6,
+    #                    plotOutput(outputId = "whatplot_hours"))),
+    #            fluidRow(plotOutput(outputId = "whatplot_words"))
+    #          ))
+    # 
     # Stupid wordle incorporation that refuses to work
     # 
-    # tabPanel(title = "Visualise your chats",
-    #          fluidPage(
-    #          fluidRow(column(width = 6, 
-    #                          plotOutput(outputId = "whatplot_date"),
-    #                          plotOutput(outputId = "whatplot_hours")),
-    #                   column(width = 6,  plotOutput(outputId = "whatplot_compare")),
-    #                   fluidRow(column(width = 12, 
-    #                                   plotOutput(outputId = "whatplot_words")
-    #                                     )))))
+     tabPanel(title = "Visualise your chats",
+              fluidPage(
+              fluidRow(column(width = 6, 
+                              plotOutput(outputId = "whatplot_time"),
+                       column(width = 6,  plotOutput(outputId = "whatplot_compare")),
+                       fluidRow(column(width = 12, 
+                                       plotOutput(outputId = "whatplot_words")
+                                         ))))))
+    
+    
+    
+    
 
     
     # ------------- app close brackets---------------

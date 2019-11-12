@@ -34,7 +34,7 @@ shinyUI(
               fluidPage(
               fluidRow(column(width = 6, 
                               plotOutput(outputId = "whatplot_time")),
-                       column(width = 6,  plotOutput(outputId = "whatplot_compare")),
+                       column(width = 6,  plotOutput(outputId = "whatplot_wordle")),
                        fluidRow(column(width = 12, 
                                        plotOutput(outputId = "whatplot_words")
                                          )))))

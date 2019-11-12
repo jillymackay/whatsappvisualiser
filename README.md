@@ -1,4 +1,2 @@
 # whatsappvisualiser
-code for visualising whatsapp chats
-
-steal code from here https://www.jumpingrivers.com/blog/edinbr-text-mining-with-r/
+I was planning a data visualisation for my partner for our anniversary - then I ended up trying to practice Shiny with it. 
